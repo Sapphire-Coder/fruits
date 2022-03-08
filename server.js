@@ -3,6 +3,7 @@ const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
 const Fruit = require('./models/fruits')
+const PORT = process.env.PORT || 3000
 
 // middleware executes for all routes, make sure to put at top so it can be executed for the routes
 app.use((req, res, next) => {
@@ -85,6 +86,6 @@ mongoose.connection.once('open', ()=> {
     console.log('connected to mongo')
 })
 
-app.listen(3000, () => {
-    console.log('listening')
+app.listen(PORT, () => {
+    console.log(`Listening on port: ${PORT}`)
 })
