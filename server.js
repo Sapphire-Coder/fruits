@@ -81,6 +81,29 @@ app.delete('/fruits/:id', (req, res) => {
     })
 })
 
+// add an edit route, goes beneath delete route
+app.get('/fruits/:id/edit', (req, res) => {
+    Fruit.findById(req.params.id, (err, foundFruit) =>{
+        if(!err){
+            res.render('Edit', { fruit: foundFruit })
+        }
+        else {
+            res.send({ msg: err.message })
+        }
+    })
+})
+// second part of the edit route
+app.put('/fruits/:id', (req, res) => {
+    if(req.body.readyToEat === 'on'){
+        req.body.readyToEat = true
+    }
+    else {
+        req.body.readyToEat = false
+    }
+    Fruit.findByIdAndUpdate(req.params.id, req.body, {new:true}, (err, updatedModel) => {
+        res.redirect('/fruits')
+    })
+})
 
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
 mongoose.connection.once('open', ()=> {
