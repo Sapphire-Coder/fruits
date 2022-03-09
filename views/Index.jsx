@@ -8,9 +8,13 @@ class Index extends React.Component{
                     {
                         this.props.fruits.map((fruit, i) => {
                             return (
-                                <li>
+                                <li key = {i}>
                                     The <a href={`/fruits/${ fruit.id }`}> { fruit.name } </a> is { fruit.color }.
-                                    { fruit.readyToEat ? ` It is ready to eat.` : ` It is not ready to eat.` }
+                                    { fruit.readyToEat ? <span>It is ready to eat</span> : <span>It is not ready to eat</span>}
+                                    {/* Delete here */}
+                                    <form action = {`/fruits/${fruit._id}?_method=DELETE`} method = "POST">
+                                        <input type = "submit" value = "DELETE"/>
+                                    </form>
                                 </li>
                             )
                         })

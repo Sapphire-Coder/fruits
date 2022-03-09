@@ -4,6 +4,7 @@ const app = express()
 const mongoose = require('mongoose')
 const Fruit = require('./models/fruits')
 const PORT = process.env.PORT || 3000
+const methodOverride = require('method-override')
 
 // middleware executes for all routes, make sure to put at top so it can be executed for the routes
 app.use((req, res, next) => {
@@ -11,6 +12,7 @@ app.use((req, res, next) => {
     next()
 })
 app.use(express.urlencoded({extended:true}))
+app.use(methodOverride('_method'))
 
 app.set('view engine', 'jsx')
 app.engine('jsx', require('express-react-views').createEngine())
@@ -70,15 +72,14 @@ app.get('/fruits/:id', (req, res) => {
     Fruit.findById(req.params.id, (err, foundFruit)=>{
         res.render('Show', {fruit: foundFruit})
     })
-    // res.render('Show', {//second param must be an object
-    // fruit: fruits[req.params.indexOfFruitsArray]
-    // there will be a variable available inside the ejs file called fruit, it's value is fruits[req.params.indexOfFruitsArray]
-    // })
 })
-// Old way of doing it with get and send and no jsx file/engine
-// app.get('/fruits/:indexOfFruitsArray', (req, res) => {
-//     res.send(fruits[req.params.indexOfFruitsArray])
-// })
+
+// add delete route, goes beneath show route
+app.delete('/fruits/:id', (req, res) => {
+    Fruit.findByIdAndRemove(req.params.id, (err, data) => {
+        res.redirect('/fruits')
+    })
+})
 
 
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
