@@ -13,6 +13,7 @@ app.use((req, res, next) => {
 })
 app.use(express.urlencoded({extended:true}))
 app.use(methodOverride('_method'))
+app.use(express.static('public')) // tells express to match requests with files in directory 'public'
 
 app.set('view engine', 'jsx')
 app.engine('jsx', require('express-react-views').createEngine())
@@ -92,7 +93,7 @@ app.get('/fruits/:id/edit', (req, res) => {
         }
     })
 })
-// second part of the edit route
+// second part of the edit route (edit redirects to this)
 app.put('/fruits/:id', (req, res) => {
     if(req.body.readyToEat === 'on'){
         req.body.readyToEat = true

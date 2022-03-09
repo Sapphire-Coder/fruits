@@ -7,6 +7,7 @@ class Edit extends React.Component {
     render() {
         return (
             <DefaultLayout title = "Edit Page">
+                <link rel="stylesheet" href="/css/app.css"/>
                 {/* Layout tag takes property 'title' we pass title to it, also note that comments cannot be first or last in jsx files */}
                 {/* form here */}
                 <form action = {`/fruits/${this.props.fruit._id}?_method=PUT`} method = "POST">
